@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: lumino_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: lumino
+      POSTGRES_PASSWORD: lumino
+      POSTGRES_DB: lumino
+    ports:
+      - "5432:5432"
+    volumes:
+      - lumino_postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:9.13
+    container_name: lumino_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@lumino.com
+      PGADMIN_DEFAULT_PASSWORD: lumino
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  lumino_postgres_data:
